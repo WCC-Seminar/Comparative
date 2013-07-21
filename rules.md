@@ -19,6 +19,12 @@ rules
 ---------
 write your comments here.
 
+質問と回答など
+---------
+分割コンパイル的なのはどうしましょう？
+長くなってもまとめるべき？
+
+
 approved by
 -----------
 lesguillemets
