@@ -13,10 +13,10 @@ void calc(void){
 	fwrite(&two,sizeof(long),1,fp);
 	//cnt=1;
 	for(long long i=3;i<=NUMMAX;i+=2){
-		if(num[(i-1)>>1]){
+		if(num[i>>1]){
 			//cnt++;
 			fwrite(&i,sizeof(long),1,fp);
-			for(long long j=(i-1)>>1;j<JMAX;j+=i){
+			for(long j=i>>1;j<JMAX;j+=i){
 				num.reset(j);
 			}
 		}
