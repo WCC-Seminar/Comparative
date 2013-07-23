@@ -5,6 +5,7 @@ from primes import primes
 
 # we will assume that a module named primes is available,
 # which gives a sorted list (preferably, tuple) of primes.
+# Perhaps these functions should better be implemented in class.
 
 
 def isprime(n, primes = primes):
@@ -37,6 +38,14 @@ def isprime_bisect(n, primes = primes):
         else:
             return False
     raise ValueError, "Upper limit exceeded."
+
+def isprime_in(n, primes = primes):
+    """
+    uses built-in function in to find if n is in primes.
+    This is a simple one-liner, and doesn't require primes to be sorted,
+    but painfully slower than the _bisect.
+    """
+    return n in primes
 
 """
 no main function is inplemented.
