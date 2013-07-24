@@ -1,8 +1,9 @@
 #!/usr/bin/python
 import sys
+import time
 
 class Brainsth(object):
-    def __init__(self, n, doesprint = True):
+    def __init__(self, n, doesprint = True, wait = 0.05):
         self.tapelength = n
         self.tape = [0] * n
         self.pointer = 0
@@ -17,6 +18,8 @@ class Brainsth(object):
         self.accept= ','
         self.whileb= '['
         self.end   = ']'
+        self.command  = ''
+        self.wait = wait
 
     def refresh(self):
         self.tape = [0] * self.tapelength
@@ -24,19 +27,26 @@ class Brainsth(object):
         self.reader = 0
         self.printed_chars = ""
 
-    def execute(self,command):
+    def give_command(self,command):
+        self.command = command
+
+    def add_to_command(self,command):
+        self.command += command
+
+    def execute(self):
         self.refresh()
-        commandlength = len(command)
+        commandlength = len(self.command)
         while True:
             try:
-                currentcommand = command[self.reader]
+                currentcommand = self.command[self.reader]
             except:
                 break
 
             if self.doesprint:
                 self.printtape()
-                self.printcommands(command)
+                self.printcommand()
                 self.reprint()
+                time.sleep(self.wait)
 
             if currentcommand == self.right:
                 self.pointer += 1
@@ -49,19 +59,20 @@ class Brainsth(object):
             elif currentcommand == self.output:
                 sys.stdout.write(chr(self.tape[self.pointer]))
                 if self.doesprint:
-                    sys.stdout.write('\n')
                     self.printed_chars += chr(self.tape[self.pointer])
             elif currentcommand == self.accept:
                 self.tape[self.pointer] = input('\n')
             elif currentcommand == self.whileb:
                 if not self.tape[self.pointer]:
-                    self.reader += command[self.reader:].find(self.end) 
+                    self.reader += self.command[self.reader:].find(self.end) 
             elif currentcommand == self.end:
                 if self.tape[self.pointer]:
-                    self.reader -= command[:self.reader][::-1].find(self.whileb) + 1
+                    self.reader -= self.command[:self.reader][::-1].find(self.whileb) + 1
             else:
                 pass
             self.reader += 1
+            if self.doesprint:
+                sys.stdout.write('\n')
 
         if self.doesprint:
             self.reprint()
@@ -79,11 +90,11 @@ class Brainsth(object):
             sys.stdout.write("%d\t"%(x))
         sys.stdout.write('\n')
 
-    def printcommands(self,command):
-        for c in command[:self.reader]:
+    def printcommand(self):
+        for c in self.command[:self.reader]:
             sys.stdout.write("%s" %(c))
-        self.emph(command[self.reader])
-        for c in command[self.reader+1:]:
+        self.emph(self.command[self.reader])
+        for c in self.command[self.reader+1:]:
             sys.stdout.write("%s" %(c))
         sys.stdout.write('\n')
 
@@ -95,7 +106,8 @@ class Brainsth(object):
 def hello_world():
    command = '++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.' 
    brain = Brainsth(10)
-   brain.execute(command)
+   brain.give_command(command)
+   brain.execute()
 
 if __name__ == '__main__':
     hello_world()
