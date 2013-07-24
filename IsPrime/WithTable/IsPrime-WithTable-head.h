@@ -31,9 +31,10 @@ void Cprime::GetPrimeList(unsigned long Max){
 		//delete this;
 #ifdef _INC_STDIO
 		printf("Primes.dat does not exist!\n");
-#endif
+#else
 #ifdef _IOSTREAM_
 		std::cout << "Primes.dat does not exist!\n" << std::endl;
+#endif
 #endif
 		PrimeNum=30;
 		PrimeList[0]=2;  PrimeList[1]=3;  PrimeList[2]=5;  PrimeList[3]=7;  PrimeList[4]=11;
@@ -71,9 +72,10 @@ int Cprime::IsPrimeDiv(unsigned long long n){
 	if(n>PrimeList[PrimeNum-1]*PrimeList[PrimeNum-1]){
 #ifdef _INC_STDIO
 		printf("Too large number for your loaded prime list.\n");
-#endif
+#else
 #ifdef _IOSTREAM_
 		std::cout << "Too large number for your loaded prime list.\n" << std::endl;
+#endif
 #endif
 		return -1;
 	}else{
@@ -114,10 +116,11 @@ int Cprime::IsPrime(unsigned long long n){
 unsigned long Cprime::GetPrime(unsigned long n){
 	if(n>PrimeNum){
 #ifdef _INC_STDIO
-		printf("Too large number for your loaded prime list.\n");
-#endif
+        printf("Too large number for your loaded prime list.\n");
+#else
 #ifdef _IOSTREAM_
 		std::cout << "Too large number for your loaded prime list.\n" << std::endl;
+#endif
 #endif
 		return 0;
 	}else{
@@ -130,9 +133,10 @@ unsigned long Cprime::CountPrimes(unsigned long n){
 	if(n>PrimeList[PrimeNum-1]){
 #ifdef _INC_STDIO
 		printf("Too large number for your loaded prime list.\n");
-#endif
+#else
 #ifdef _IOSTREAM_
 		std::cout << "Too large number for your loaded prime list.\n" << std::endl;
+#endif
 #endif
 		return 0;
 	}
@@ -161,9 +165,10 @@ unsigned long Cprime::LargestPrime(unsigned long n){
 	if(n>PrimeList[PrimeNum-1]){
 #ifdef _INC_STDIO
 		printf("Too large number for your loaded prime list.\n");
-#endif
+#else
 #ifdef _IOSTREAM_
 		std::cout << "Too large number for your loaded prime list.\n" << std::endl;
+#endif
 #endif
 		return 0;
 	}else{
@@ -175,9 +180,10 @@ unsigned long Cprime::SmallestPrime(unsigned long n){
 	if(n>PrimeList[PrimeNum-1]){
 #ifdef _INC_STDIO
 		printf("Too large number for your loaded prime list.\n");
-#endif
+#else
 #ifdef _IOSTREAM_
 		std::cout << "Too large number for your loaded prime list.\n" << std::endl;
+#endif
 #endif
 		return 0;
 	}else{
