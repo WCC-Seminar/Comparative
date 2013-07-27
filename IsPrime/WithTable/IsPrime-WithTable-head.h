@@ -143,7 +143,7 @@ unsigned long Cprime::CountPrimes(unsigned long n){
 
 	unsigned long a=0;
 	unsigned long b=PrimeNum-1;
-	unsigned long c=b*0.5;
+	unsigned long c=b/2;
 
 	while(a<b){
 		if(PrimeList[c]==n){
