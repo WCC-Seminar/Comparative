@@ -32,8 +32,12 @@ def mycp(fromfile,tofile):
 
         
 def main():
-    fromfile = sys.argv[1]
-    tofile = sys.argv[2]
+    try:
+        fromfile = sys.argv[1]
+        tofile = sys.argv[2]
+    except:
+        print ("Please specify TWO files. Abort.")
+        return 0
     mycp(fromfile,tofile)
 
 
