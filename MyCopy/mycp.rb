@@ -13,6 +13,7 @@ def mycp(fromfile, tofile)
             fr.close()
         rescue
             puts "Can't read the file (maybe permission denied). Abort."
+            return 
         end
 
         # writes data
