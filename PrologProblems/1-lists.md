@@ -77,3 +77,89 @@ last.init $ a
 ```haskell
 head.tail.reverse $ a
 ```
+
+### 1.03 Find the k'th element of a list.
+
+#### C++
+
+#### Python
+```python
+a[k]
+```
+
+#### Ruby
+```ruby
+a[k]
+a.at(k)
+```
+
+#### Haskell
+```haskell
+a !! k
+```
+
+### 1.04 Find the number of elements of a list.
+
+#### Python
+```python
+len(a)
+```
+
+#### Ruby
+```ruby
+a.length
+a.length()  # similar variants everywhere.
+a.count
+```
+
+#### Haskell
+```haskell
+length a
+```
+
+### 1.05 Reverse a list.
+
+#### Python
+```python
+a.reverse()       # reverses in place
+reversed(a)       # returns iterator
+list(reversed(a)) # returns reversed list
+a[::-1]           # slicing
+```
+
+#### Ruby
+```ruby
+a.reverse  # returns reversed list.
+a.reverse! # returns reversed list AND reverses the list in place.
+```
+
+#### Haskell
+```haskell
+reverse a
+```
+
+### 1.06 Find out whether a list is a palindrome.
+A palindrome can be read forward or backward: e.g. [x,a,m,a,x].
+
+#### Python
+```python
+a == a[::1]
+```
+The following script checks one by one.
+```python
+def is_palindrome(l):
+    for i in range(len(l)//2):
+        if l[i] != l[-1-i]:
+            return False
+    return True
+```
+
+### 1.07 Flatten a nested list structure.
+Transform a list, possibly holding lists as elements into a 'flat' list by replacing each list with its elements (recursively).
+
+#### Ruby
+Ruby has a built-in function:
+```ruby
+a.flatten  # returns the flattened list.
+a.flatten! # flattens in place.
+```
