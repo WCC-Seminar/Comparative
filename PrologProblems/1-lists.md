@@ -312,7 +312,7 @@ def encode(l):
 encode [] = []
 encode (x:xs) = [1 + length ( takeWhile (==x) xs ), x] 
                  : encode ( dropWhile (==x) xs )
-````
+```
 
 ### 1.11 Modified run-length encoding.
 
@@ -324,3 +324,36 @@ Only elements with duplicates are transferred as [N,E] terms.
 def encode_modified(l):
     return map(lambda g: g[0] if len(g) == 1 else [len(g), g[0]], pack(l))
 ```
+
+### 1.12 Decode a run-length encoded list.
+
+Given a run-length code list generated as specified in problem 1.11, Construct its uncompressed version.
+
+ Note : ```[[3,2], [1,3], [1,3]]``` -> compressed : [[3,2], [2,[1,3]]] -> decode : ```[2,2,2, [1,3], [1,3]``` ... AAgh!
+Thus let us assume 'good faith'. Nothing unpleasant shall be given.
+
+#### Python
+Using higher functions. One-liner but doesn't seem to be clever nor standard.
+```python
+def decode(code):
+    return reduce(lambda x,y: x+y,
+         map(lambda x: [x[1]] * x[0] if isinstance(x,list) and len(x)==2 
+                    else [x],code) )
+```
+
+#### Haskell
+as the 'modified' encoding is rather hard to handle in haskell (for me),
+here we assume the encoded list is given as
+```haskell
+[ (N0,E0),(N1,E1),(N2,E2), .. (Nn,En) ]
+```
+, non-modified version.
+AND all the Ei's are of the same type.
+```haskell
+decode [] = []
+decode (x:xs) = smalldecode (snd x) (fst x) ++ decode xs
+    where -- I think there must be a built-in for this.
+        smalldecode x 0 = []
+        smalldecode x n = x:smalldecode x (n-1) 
+```
+
