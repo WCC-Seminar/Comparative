@@ -154,8 +154,54 @@ def is_palindrome(l):
     return True
 ```
 
+#### Ruby
+```ruby
+a == a.reverse
+```
+check one by one?
+```ruby
+def is_palindrome(l)
+  (1 .. l.length/2).each do |i|
+    unless l[i] == l[-1-i]
+      return false
+    end
+  end
+  return true
+end
+```
+
 ### 1.07 Flatten a nested list structure.
 Transform a list, possibly holding lists as elements into a 'flat' list by replacing each list with its elements (recursively).
+
+#### Python
+Recursion.
+```python
+def flatten_tail(l, heads):
+    while l != []:
+        if isinstance(l[0], list):
+            try:
+                return flatten_tail( l[0] + l[1:], heads)
+            except:
+                return flatten_tail( l[0], heads)
+        else:
+            heads.append(l.pop(0))
+    return heads
+
+def flatten(l):
+    return flatten_tail(l,[])
+
+# flatten(a)
+```
+Knowing this is a kind of cheating: the following script first converts the list to string ('[1,2,[3,[4,5]]]'), remove all the '[' ']'s, then re-evaluates with surrounding [].
+```python
+def flatten(l):
+    return eval('['+repr(l).replace('[','').replace(']','')+']')
+```
+Never knew this
+```python
+from compiler.ast import flatten
+flatten(a)
+```
 
 #### Ruby
 Ruby has a built-in function:
