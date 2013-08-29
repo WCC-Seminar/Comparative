@@ -241,6 +241,14 @@ def compress(l):
 ```
 
 #### Haskell
+
+```haskell
+compress (x:[]) = x:[]
+compress (x:xs) 
+       | x == head xs = compress xs
+       | otherwise    = x:compress xs
+```
+tail recursion (?)
 ```haskell
 compresstail [] compressed = reverse compressed
 compresstail (x:xs) []   = compresstail xs [x]
@@ -298,6 +306,13 @@ import itertools
 def encode(l):
     return [ [len(list(group)),key] for (key,group) in itertools.groupby(l) ]
 ```
+
+#### Haskell
+```haskell
+encode [] = []
+encode (x:xs) = [1 + length ( takeWhile (==x) xs ), x] 
+                 : encode ( dropWhile (==x) xs )
+````
 
 ### 1.11 Modified run-length encoding.
 
