@@ -357,3 +357,69 @@ decode (x:xs) = smalldecode (snd x) (fst x) ++ decode xs
         smalldecode x n = x:smalldecode x (n-1) 
 ```
 
+### 1.13 Run-length encoding of a list (direct solution).
+-> see 1.10.
+
+### 1.14 Duplicate the elements of a list. 
+
+example:
+```prolog
+?- dupli([a,b,c,c,d],X).
+X = [a,a,b,b,c,c,c,c,d,d]
+```
+
+#### Python
+
+```python
+def dupli(l):
+    return reduce(lambda x,y: x+y, [ [element] * 2 for element in l ])
+
+def dupli2(l):
+    return reduce( lambda x,y : x+y, zip(l,l))
+
+def dupli3(l):
+    return [ element for element in l for n in (0,1) ]
+
+def dupli4(l):
+    duplicated = []
+    for el in l:
+        duplicated.extend([el]*2)
+    return duplicated
+```
+
+#### Haskell
+
+```haskell
+dupli :: [a] -> [a]
+dupli []     = []
+dupli (x:xs) = x:x:dupli xs
+```
+
+### 1.15 Duplicate the elements of a list a given number of times.
+
+#### Python
+```python
+def dupli(li, n):
+    return [ element for element in l for i in range(n) ]
+
+def dupli2(l):
+    return reduce(lambda x,y: x+y, [ [element] * n for element in l ])
+
+def dupli3(l):
+    duplicated = []
+    for el in l:
+        duplicated.extend([el]*n)
+    return duplicated
+```
+
+#### Haskell
+
+```haskell
+dupli :: (Integral b) => [a] -> b -> [a]
+dupli [] n     = []
+dupli (x:xs) n = (dup' x n ) ++ dupli xs n
+    where
+        dup' x 0 = []
+        dup' x n = x: dup' x (n-1)
+```
+
