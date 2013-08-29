@@ -399,13 +399,13 @@ dupli (x:xs) = x:x:dupli xs
 
 #### Python
 ```python
-def dupli(li, n):
+def dupli(l, n):
     return [ element for element in l for i in range(n) ]
 
-def dupli2(l):
+def dupli2(l, n):
     return reduce(lambda x,y: x+y, [ [element] * n for element in l ])
 
-def dupli3(l):
+def dupli3(l, n):
     duplicated = []
     for el in l:
         duplicated.extend([el]*n)
