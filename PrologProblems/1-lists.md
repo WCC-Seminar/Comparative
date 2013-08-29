@@ -161,7 +161,7 @@ a == a.reverse
 check one by one?
 ```ruby
 def is_palindrome(l)
-  (1 .. l.length/2).each do |i|
+  (0 .. l.length/2).each do |i|
     unless l[i] == l[-1-i]
       return false
     end
@@ -261,7 +261,7 @@ import itertools
 def pack(l):
     return [list(group) for (key,group) in itertools.groupby(l) ]
 ```
-off course, we can do something like
+of course, we can do something like
 ```python
 def pack(l):
     packed = []
@@ -299,3 +299,13 @@ def encode(l):
     return [ [len(list(group)),key] for (key,group) in itertools.groupby(l) ]
 ```
 
+### 1.11 Modified run-length encoding.
+
+Modify the result of problem 1.10 in such a way that if an element has no duplicates it is simply copied into the result list. 
+Only elements with duplicates are transferred as [N,E] terms.
+
+#### Python
+```python
+def encode_modified(l):
+    return map(lambda g: g[0] if len(g) == 1 else [len(g), g[0]], pack(l))
+```
