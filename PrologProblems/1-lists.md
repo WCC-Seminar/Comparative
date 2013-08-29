@@ -4,7 +4,7 @@ problems from https://sites.google.com/site/prologsite/prolog-problems/1
 /2 はまた別ファイルにしようかなと
 
 
-###1.01 Find the last element of a list.
+### 1.01 Find the last element of a list.
 List は a (= [a0,a1,..., an]) として 
 ####C++
 
@@ -170,6 +170,11 @@ def is_palindrome(l)
 end
 ```
 
+#### Haskell
+```haskell
+a == reverse a
+```
+
 ### 1.07 Flatten a nested list structure.
 Transform a list, possibly holding lists as elements into a 'flat' list by replacing each list with its elements (recursively).
 
@@ -210,3 +215,32 @@ a.flatten  # returns the flattened list.
 a.flatten! # flattens in place.
 ```
 
+### 1.08 Eliminate consecutive duplicates of list elements.
+If a list contains repeated elements they should be replaced with a single copy of the element.
+The order of the elements should not be changed. 
+
+#### Python
+```python
+def compress(l):
+    compressed = []
+    while l != []:
+        try:
+            if l[0] == compressed[-1]:
+                l.pop(0)
+            else:
+                compressed.append( l.pop(0) )
+        except:
+            compressed.append( l.pop(0) )
+    return compressed
+```
+
+#### Haskell
+```haskell
+compresstail [] compressed = reverse compressed
+compresstail (x:xs) []   = compresstail xs [x]
+compresstail (x:xs) compressed
+    | x == (head compressed) = compresstail xs compressed
+    | otherwise              = compresstail xs (x:compressed)
+
+compress l = compresstail l []
+```
