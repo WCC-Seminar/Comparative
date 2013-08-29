@@ -190,7 +190,7 @@ def flatten_tail(l, heads):
 def flatten(l):
     return flatten_tail(l,[])
 
-# flatten(a)
+flatten(a)
 ```
 Knowing this is a kind of cheating: the following script first converts the list to string ('[1,2,[3,[4,5]]]'), remove all the '[' ']'s, then re-evaluates with surrounding [].
 ```python
@@ -209,3 +209,4 @@ Ruby has a built-in function:
 a.flatten  # returns the flattened list.
 a.flatten! # flattens in place.
 ```
+
