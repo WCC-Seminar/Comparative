@@ -233,6 +233,12 @@ def compress(l):
             compressed.append( l.pop(0) )
     return compressed
 ```
+Yay itertools!
+```python
+import itertools
+def compress(l):
+    return [key for (key,group) in itertools.groupby(l)]
+```
 
 #### Haskell
 ```haskell
@@ -244,3 +250,52 @@ compresstail (x:xs) compressed
 
 compress l = compresstail l []
 ```
+
+### 1.09 Pack consecutive duplicates of list elements into sublists.
+If a list contains repeated elements they should be placed in separate sublists.
+
+#### Python
+itertools.
+```python
+import itertools
+def pack(l):
+    return [list(group) for (key,group) in itertools.groupby(l) ]
+```
+off course, we can do something like
+```python
+def pack(l):
+    packed = []
+    buff = []
+    while l != []:
+        try:
+            if l[0] == buff[0]:
+                buff.append( l.pop(0) )
+            else:
+                packed.append( buff )
+                buff = []
+        except:
+            buff.append( l.pop(0) )
+    if buff != []:
+        packed.append( buff )
+    return packed
+```
+
+### 1.10 Run-length encoding of a list.
+
+Use the result of problem 1.09 to implement the so-called run-length encoding data comopression method. Consequtive duplicates of elements are encoded as terms [N, E] where N is the number of duplicates of the element E.
+
+(Do we have to use the result of problem 1.09?)
+
+#### Python
+If we use the result of previous problem:
+```python
+def encode(l):
+    return [ [len(g), g[0] ] for g in pack(l) ] 
+```
+without that:
+```python
+import itertools
+def encode(l):
+    return [ [len(list(group)),key] for (key,group) in itertools.groupby(l) ]
+```
+
