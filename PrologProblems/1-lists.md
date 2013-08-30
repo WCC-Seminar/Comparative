@@ -258,6 +258,11 @@ compresstail (x:xs) compressed
 
 compress l = compresstail l []
 ```
+and with Data.List
+```haskell
+import Data.List
+compress xs = map (\x-> head x ) (group xs)
+```
 
 ### 1.09 Pack consecutive duplicates of list elements into sublists.
 If a list contains repeated elements they should be placed in separate sublists.
@@ -288,6 +293,13 @@ def pack(l):
     return packed
 ```
 
+#### Haskell
+using Data.List
+```haskell
+import Data.List
+group a
+```
+
 ### 1.10 Run-length encoding of a list.
 
 Use the result of problem 1.09 to implement the so-called run-length encoding data comopression method. Consequtive duplicates of elements are encoded as terms [N, E] where N is the number of duplicates of the element E.
@@ -312,6 +324,12 @@ def encode(l):
 encode [] = []
 encode (x:xs) = [1 + length ( takeWhile (==x) xs ), x] 
                  : encode ( dropWhile (==x) xs )
+```
+again, Data.List works well.
+```haskell
+import Data.List
+encode :: (Eq a) => [a] -> [ (Int, a) ]
+encode xs = map  (\x -> (length x, head x))  (group xs)
 ```
 
 ### 1.11 Modified run-length encoding.
@@ -422,6 +440,7 @@ dupli (x:xs) n = (dup' x n ) ++ dupli xs n
         dup' x 0 = []
         dup' x n = x: dup' x (n-1)
 ```
+Note for myself: ```concatMap``` will work as well.
 
 ### 1.16 Drop every n'th element from a list.
 
@@ -459,6 +478,17 @@ def mysplit(l,n):
     return l[:n], l[n:]
 ```
 
+#### Haskell
+there's a built-in function
+```haskell
+splitAt n xs
+```
+or 
+```haskell
+split :: Int -> [a] -> ([a], [a])
+split n xs = (take n xs, drop n xs) 
+```
+
 ### 1.18 Extract a slice from a list.
 Given two indices, I and K, the slice is the list containing the elements between the I'th and K'th element of the original list (both limits included). Start counting the elements with 1.
 
@@ -471,6 +501,12 @@ X = [c,d,e,f,g]
 #### Python
 ```python
 a[i-1:k]
+```
+
+#### Haskell
+```haskell
+slice :: Int -> Int -> [a] -> [a]
+slice i k list = take (k-i+1) $ drop (i-1) list
 ```
 
 ### 1.19 Rotate a list N places to the left.
@@ -516,3 +552,4 @@ def remove_at(l,n):
 def remove_at2(l,n):
     return l[n-1], l[:n-1] + l[n:]
 ```
+
