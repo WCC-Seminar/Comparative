@@ -423,3 +423,96 @@ dupli (x:xs) n = (dup' x n ) ++ dupli xs n
         dup' x n = x: dup' x (n-1)
 ```
 
+### 1.16 Drop every n'th element from a list.
+
+Example:
+```prolog
+?- drop([a,b,c,d,e,f,g,h,i,k],3,X).
+X = [a,b,d,e,g,h,k]
+```
+#### Python
+```python
+def drop(l,n):
+    return [ x[i] for i in range(len(l)) if (i+1)%n != 0]
+```
+
+#### Haskell
+
+Prelude contains a function ```drop```: ```drop n xs``` returns the suffix of xs after the first n elements, or [] if n > length xs.  
+```haskell
+drop'  :: (Integral n) => [a] -> n -> n -> [a]
+mydrop :: (Integral n) => [a] -> n -> [a]
+
+drop' [] n m = [] 
+drop' (x:xs) n m 
+    | m `mod` n /= 0 = x : drop' xs n (m+1)
+    | otherwise      = drop' xs n 1
+
+mydrop l n = drop' l n 1 -- drop 2 [1,2,3,4,5,6] -> [2,3,4,5,6]
+```
+
+### 1.17 Split a list into two parts; the length of th efirst part is given.
+
+#### Python
+```python
+def mysplit(l,n):
+    return l[:n], l[n:]
+```
+
+### 1.18 Extract a slice from a list.
+Given two indices, I and K, the slice is the list containing the elements between the I'th and K'th element of the original list (both limits included). Start counting the elements with 1.
+
+Example:
+```prolog
+?- slice([a,b,c,d,e,f,g,h,i,k],3,7,L).
+X = [c,d,e,f,g]
+```
+
+#### Python
+```python
+a[i-1:k]
+```
+
+### 1.19 Rotate a list N places to the left.
+
+Examples:
+```prolog
+?- rotate([a,b,c,d,e,f,g,h],3,X).
+X = [d,e,f,g,h,a,b,c]
+
+?- rotate([a,b,c,d,e,f,g,h],-2,X).
+X = [g,h,a,b,c,d,e,f]
+```
+
+#### Python
+Naturally,
+```python
+def rotate(l,n):
+    return l[n:] + l[:n]
+```
+or python has this for you
+```python
+import collections
+def rotate(l,n):
+    deq = collections.deque(l)
+    deq.rotate(-n)
+    return list(deq)
+```
+
+#### Ruby
+Yay!
+```ruby
+a.rotate(n)
+```
+
+### 1.20 Remove the K'th element from a list.
+(Note: the example seems to return the removed element too.)
+
+#### Python
+```python
+def remove_at(l,n):
+    return l.pop(n-1),l # return l.pop(n-1) for X ( == b in the example).
+
+def remove_at2(l,n):
+    return l[n-1], l[:n-1] + l[n:]
+```
