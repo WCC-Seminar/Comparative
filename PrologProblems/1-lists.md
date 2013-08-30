@@ -451,7 +451,7 @@ drop' (x:xs) n m
 mydrop l n = drop' l n 1 -- drop 2 [1,2,3,4,5,6] -> [2,3,4,5,6]
 ```
 
-### 1.17 Split a list into two parts; the length of th efirst part is given.
+### 1.17 Split a list into two parts; the length of the first part is given.
 
 #### Python
 ```python
