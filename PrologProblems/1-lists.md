@@ -441,6 +441,21 @@ def decode(code):
                     else [x],code) )
 ```
 
+#### Ruby
+```ruby
+def decode(code)
+  decoded = Array.new
+  decoded = code.inject(Array.new) do |d, x|
+    if x.kind_of?(Array) and x.length == 2
+      d + [x.last]*x.first
+    else
+      d << x
+    end
+  end
+  return decoded
+end
+```
+
 #### Haskell
 as the 'modified' encoding is rather hard to handle in haskell (for me),
 here we assume the encoded list is given as
