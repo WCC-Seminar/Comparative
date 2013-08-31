@@ -240,6 +240,26 @@ def compress(l):
     return [key for (key,group) in itertools.groupby(l)]
 ```
 
+#### Ruby
+Direct translation from python:
+```ruby
+def compress(l)
+  compressed = []
+  while l != []
+    begin 
+      if l[0] == compressed.last then
+        l.delete_at(0)
+      else
+        compressed.push(l.delete_at(0))
+      end
+    rescue
+      compressed.push(l.delete_at(0))
+    end
+  end
+  return compressed
+end
+```
+
 #### Haskell
 
 ```haskell
@@ -440,7 +460,14 @@ dupli (x:xs) n = (dup' x n ) ++ dupli xs n
         dup' x 0 = []
         dup' x n = x: dup' x (n-1)
 ```
-Note for myself: ```concatMap``` will work as well.
+```concatMap``` works as well.
+```haskell
+dupli' :: Int -> [a] -> [a]
+dupli' n xs = concatMap (dup'' n) xs
+    where
+        dup'' 0 x = []
+        dup'' n x = x:dup'' (n-1) x
+```
 
 ### 1.16 Drop every n'th element from a list.
 
@@ -541,6 +568,22 @@ Yay!
 a.rotate(n)
 ```
 
+#### Haskell
+
+```haskell
+rotate' n xs = (drop n xs) ++ (take n xs) -- works only for 0 <= n <= length xs.
+```
+using cycle 
+```haskell
+rotate n xs = take (length xs) . drop n . cycle $ xs -- works only for n >= 0.
+```
+and this should work for all n.
+```haskell
+rotate'' n xs 
+    | n < 0     = rotate (length xs + n) xs
+    | otherwise = rotate n xs
+```
+
 ### 1.20 Remove the K'th element from a list.
 (Note: the example seems to return the removed element too.)
 
@@ -551,5 +594,72 @@ def remove_at(l,n):
 
 def remove_at2(l,n):
     return l[n-1], l[:n-1] + l[n:]
+```
+
+
+### 1.21  Insert an element at a given position into a list.
+
+#### Python
+```python
+def insert_at(a, li, loc):
+    return li[:loc-1] + [a] + li[loc-1:]
+```
+
+### 1.22 Create a list containing all integers within a given range.
+
+Example:
+```prolog
+?- range(4,9,L).
+L = [4,5,6,7,8,9]
+```
+
+#### Python
+```python
+range(n, m+1)  # list (python 2.x), generator (python 3.x)
+xrange(n, m+1) # generator (python 2.x)
+```
+
+### 1.23 Extract a given number of randomly selected elements from a list.
+
+#### Python
+```python
+import random
+
+[random.choice(l) for i in range(n)] # if duplicates are allowed
+random.sample(l, n)                  # if not
+```
+
+### 1.24 Lotto: Draw N different random numbers from the set 1..M.
+
+#### Python
+```python
+import random
+random.sample(range(1,m+1), N)
+```
+
+### 1.25 Generate a random permutation of the elements of a list.
+
+Example:
+```prolog
+?- rnd_permu([a,b,c,d,e,f],L).
+L = [b,a,d,c,e,f]
+```
+
+#### Python
+```python
+import random
+def random_sample(l):
+    return random.sample(l, len(l))
+
+def random_permutation(l):
+    shuffled = list(l)       # makes a shallow copy
+    random.shuffle(shuffled) # shuffles in place
+    return shuffled
+
+def my_random_permutation(l):
+    length = len(l)
+    buff = list(l)
+    return [ buff.pop(random.randint(0,len(buff)-1)) 
+                    for i in range(length)]
 ```
 
