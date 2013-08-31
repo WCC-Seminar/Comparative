@@ -760,7 +760,7 @@ def my_random_permutation(l):
 combination :: Int -> [a] -> [[a]]
 combination n [] = [[]]
 combination 0 xs = [[]]
-combination n (xxs)
+combination n (x:xs)
     | length xs == (n-1) = [x:xs]
     | otherwise          = combination n xs ++ map (x:) (combination (n-1) xs) 
 ```
