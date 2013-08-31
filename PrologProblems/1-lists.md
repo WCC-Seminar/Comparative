@@ -369,7 +369,7 @@ Use the result of problem 1.09 to implement the so-called run-length encoding da
 (Do we have to use the result of problem 1.09?)
 
 #### Python
-If we use the result of previous problem:
+If we use the result of problem 1.09:
 ```python
 def encode(l):
     return [ [len(g), g[0] ] for g in pack(l) ] 
@@ -700,12 +700,12 @@ xrange(n, m+1) # generator (python 2.x)
 
 #### Ruby
 ```ruby
-(n..m).to_a    # to_a if you reallyneed an array.
+(n..m).to_a    # to_a if you really need an array.
 ```
 
 #### Haskell
 ```haskell
-[n..m ]
+[n..m]
 ```
 
 ### 1.23 Extract a given number of randomly selected elements from a list.
