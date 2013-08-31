@@ -661,6 +661,7 @@ rotate'' n xs
     | otherwise = rotate n xs
 ```
 
+
 ### 1.20 Remove the K'th element from a list.
 (Note: the example seems to return the removed element too.)
 
@@ -674,7 +675,8 @@ def remove_at2(l,n):
 ```
 
 
-### 1.21  Insert an element at a given position into a list.
+
+### 1.21 Insert an element at a given position into a list.
 
 #### Python
 ```python
@@ -694,6 +696,16 @@ L = [4,5,6,7,8,9]
 ```python
 range(n, m+1)  # list (python 2.x), generator (python 3.x)
 xrange(n, m+1) # generator (python 2.x)
+```
+
+#### Ruby
+```ruby
+(n..m).to_a    # to_a if you reallyneed an array.
+```
+
+#### Haskell
+```haskell
+[n..m ]
 ```
 
 ### 1.23 Extract a given number of randomly selected elements from a list.
