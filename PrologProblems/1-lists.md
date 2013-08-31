@@ -559,6 +559,27 @@ def drop(l,n):
     return [ x[i] for i in range(len(l)) if (i+1)%n != 0]
 ```
 
+#### Ruby
+```ruby
+def drop(n,l)
+  return l.select.each_with_index{ |x,i| ! ((i+1)%n).zero?}
+end
+```
+In case you hate ```%``` ...
+```ruby
+def drop2(n,l)
+  roller = 0
+  dropped = Array.new
+  l.each do |i|
+    roller += 1
+    if roller == n then roller = 0
+    else dropped << i
+    end
+  end
+  return dropped
+end
+```
+
 #### Haskell
 
 Prelude contains a function ```drop```: ```drop n xs``` returns the suffix of xs after the first n elements, or [] if n > length xs.  
@@ -580,6 +601,17 @@ mydrop l n = drop' l n 1 -- drop 2 [1,2,3,4,5,6] -> [2,3,4,5,6]
 ```python
 def mysplit(l,n):
     return l[:n], l[n:]
+```
+
+#### Ruby
+```ruby
+def split_at(l,n)
+  return l.take(n), l.drop(n)
+end
+
+def split_at2(l,n)
+  return l[0..n-1], l[n..-1]
+end
 ```
 
 #### Haskell
@@ -605,6 +637,17 @@ X = [c,d,e,f,g]
 #### Python
 ```python
 a[i-1:k]
+```
+
+#### Ruby
+```ruby
+def slice(l,i,k)
+  return l[i-1..k-1]
+end
+
+def slice2(l,i,k)
+  return l.drop(i-1).take(k-i+1)
+end
 ```
 
 #### Haskell
@@ -674,6 +717,25 @@ def remove_at2(l,n):
     return l[n-1], l[:n-1] + l[n:]
 ```
 
+#### Ruby
+If you want to delete in place, 
+```ruby
+a.delete_at(n-1)
+```
+should do the job. Otherwise
+```ruby
+def remove_at(l,n)
+  j=Array.new(l) # as delete_at method is destrctive
+  j.delete_at(n-1)
+  return j
+end
+```
+or
+```
+def remove_at(l,n)
+  return l.take(n-1) + l.drop(n)
+end
+```
 
 
 ### 1.21 Insert an element at a given position into a list.
@@ -683,6 +745,18 @@ def remove_at2(l,n):
 def insert_at(a, li, loc):
     return li[:loc-1] + [a] + li[loc-1:]
 ```
+
+#### Ruby
+```ruby
+a.insert(2,'a') # inserts in place
+```
+or
+```
+def insert_at(a, li, loc)
+  return li.take(loc-1) + [a] + li.drop(loc-1)
+end
+```
+You can always use ```li[0..n]```, blah blah blah.
 
 ### 1.22 Create a list containing all integers within a given range.
 
@@ -701,6 +775,10 @@ xrange(n, m+1) # generator (python 2.x)
 #### Ruby
 ```ruby
 (n..m).to_a    # to_a if you really need an array.
+
+def range2(n,m)
+  return Array.new(m+1-n){|i| i+n}
+end
 ```
 
 #### Haskell
@@ -718,12 +796,24 @@ import random
 random.sample(l, n)                  # if not
 ```
 
+#### Ruby
+```ruby
+a.sample(n)
+```
+
 ### 1.24 Lotto: Draw N different random numbers from the set 1..M.
 
 #### Python
 ```python
 import random
 random.sample(range(1,m+1), N)
+```
+
+#### Ruby
+```ruby
+(1..m).to_a.sample(n)
+
+Array.new(m){|i| i+1}.sample(n)
 ```
 
 ### 1.25 Generate a random permutation of the elements of a list.
