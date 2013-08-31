@@ -752,3 +752,15 @@ def my_random_permutation(l):
                     for i in range(length)]
 ```
 
+### 1.26 Generate the combinations of K distinct objects chosen from the N elements of a list.
+
+#### Haskell
+
+```haskell
+combination :: Int -> [a] -> [[a]]
+combination n [] = [[]]
+combination 0 xs = [[]]
+combination n (xxs)
+    | length xs == (n-1) = [x:xs]
+    | otherwise          = combination n xs ++ map (x:) (combination (n-1) xs) 
+```
