@@ -259,6 +259,12 @@ def compress(l)
   return compressed
 end
 ```
+This looks much more ruby-ish (and is one-liner!).
+```ruby
+def compress(l)
+  return l.select.each_with_index {|x,i| i == 0 or l[i-1] != x}
+end
+```
 
 #### Haskell
 
