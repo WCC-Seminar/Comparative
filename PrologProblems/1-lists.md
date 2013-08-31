@@ -726,12 +726,11 @@ should do the job. Otherwise
 ```ruby
 def remove_at(l,n)
   j=Array.new(l) # as delete_at method is destrctive
-  j.delete_at(n-1)
-  return j
+  return j, j.delete_at(n-1)
 end
 ```
 or
-```
+```ruby
 def remove_at(l,n)
   return l.take(n-1) + l.drop(n)
 end
@@ -751,7 +750,7 @@ def insert_at(a, li, loc):
 a.insert(2,'a') # inserts in place
 ```
 or
-```
+```ruby
 def insert_at(a, li, loc)
   return li.take(loc-1) + [a] + li.drop(loc-1)
 end
