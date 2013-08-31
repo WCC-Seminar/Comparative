@@ -318,6 +318,13 @@ def pack(l):
         packed.append( buff )
     return packed
 ```
+List comprehension or filter makes your life easier. (Inspired by ruby solution)
+```python
+def pack(l):
+    packed = [l[0]]
+    packed.extend( [ l[i] for i in range(1,len(l)) if l[i] != l[i-1]] )
+    return packed
+```
 
 #### Ruby
 ```ruby
@@ -331,6 +338,18 @@ def pack(l)
       packed << buff
       buff = [x]
     end
+  end
+  return packed
+end
+```
+Using ```drop_while``` seems better?
+```ruby
+def pack(l)
+  buff = Array.new(l)
+  packed = Array.new
+  until buff.empty?
+    packed << buff.first
+    buff = buff.drop_while {|i| i == buff.first}
   end
   return packed
 end
@@ -360,6 +379,26 @@ without that:
 import itertools
 def encode(l):
     return [ [len(list(group)),key] for (key,group) in itertools.groupby(l) ]
+```
+
+#### Ruby
+With ```pack``` defined in problem 1.09 at hand:
+```ruby
+def encode(l)
+  return pack(l).collect {|i| [i.length, i.first]}
+end
+```
+Direct solution
+```ruby
+def encode(l)
+  encoded = Array.new
+  buff = Array.new(l)
+  until buff.empty?
+    encoded << [ buff.take_while { |i| i==buff.first}.length, buff.first]
+    buff = buff.drop_while {|i| i == buff.first}
+  end
+  return encoded
+end
 ```
 
 #### Haskell
