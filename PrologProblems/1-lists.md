@@ -319,6 +319,23 @@ def pack(l):
     return packed
 ```
 
+#### Ruby
+```ruby
+def pack(l)
+  buff = Array.new
+  packed = Array.new
+  l.each_with_index do |x,i|
+    if i == 0 or l[i-1] == x then
+      buff << x
+    else
+      packed << buff
+      buff = [x]
+    end
+  end
+  return packed
+end
+```
+
 #### Haskell
 using Data.List
 ```haskell
