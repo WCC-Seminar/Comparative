@@ -502,6 +502,13 @@ def dupli4(l):
     return duplicated
 ```
 
+#### Ruby
+```
+def dupli(l)
+  return l.map {|i| [i]*2}.flatten
+end
+```
+
 #### Haskell
 
 ```haskell
@@ -527,8 +534,14 @@ def dupli3(l, n):
     return duplicated
 ```
 
-#### Haskell
+#### Ruby
+```ruby
+def dupli(l, n)
+  return l.map {|i| [i]*n}.flatten
+end
+```
 
+#### Haskell
 ```haskell
 dupli :: (Integral b) => [a] -> b -> [a]
 dupli [] n     = []
