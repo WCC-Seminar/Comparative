@@ -860,7 +860,7 @@ def my_random_permutation(l):
 itertools. again.
 ```python
 import itertools
-list(itertools.combinations(li, k)  # it.combinations returns a generator.
+list(itertools.combinations(li, k))  # it.combinations returns a generator.
 ```
 
 #### Haskell
