@@ -503,7 +503,7 @@ def dupli4(l):
 ```
 
 #### Ruby
-```
+```ruby
 def dupli(l)
   return l.map {|i| [i]*2}.flatten
 end
@@ -855,6 +855,13 @@ def my_random_permutation(l):
 ```
 
 ### 1.26 Generate the combinations of K distinct objects chosen from the N elements of a list.
+
+#### Python
+itertools. again.
+```python
+import itertools
+list(itertools.combinations(li, k)  # it.combinations returns a generator.
+```
 
 #### Haskell
 
