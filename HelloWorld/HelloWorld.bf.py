@@ -2,14 +2,198 @@
 import sys
 import time
 
-class Brainsth(object):
-    def __init__(self, n, doesprint = True, wait = 0.05):
-        self.tapelength = n
-        self.tape = [0] * n
-        self.pointer = 0
-        self.reader = 0
+class BrainSth(object):
+    def __init__(self, tapelength, print_every_step = True, wait = 0.05):
+        # body
+        self.code = None
+        self.tape = BFTape(tapelength)
+        self.commands = BFCommands()
         self.printed_chars = ""
-        self.doesprint = doesprint
+        # settings
+        self.print_every_step = print_every_step
+        self.wait = wait
+    
+    def give_code(self, code):
+        self.code = BFCode(code)
+    
+    def add_to_code(self, codetoadd):
+        self.code.add_to_code(codetoadd)
+    
+    def clearcode(self):
+        self.code = None
+    
+    def refresh(self):
+        self.code.reset(None)
+        self.tape.refresh()
+        self.printed_chars = ''
+    
+    def execute_command(self, command):
+        if self.print_every_step:
+            print self.tape
+            print self.code
+            self.reprint()
+            time.sleep(self.wait)
+        
+        if command == self.commands.right:
+            self.tape.right()
+        elif command == self.commands.left:
+            self.tape.left()
+        elif command == self.commands.incr:
+            self.tape.incr()
+        elif command == self.commands.decr:
+            self.tape.decr()
+        elif command == self.commands.output:
+            sys.stdout.write( chr(self.tape.read()) )
+            self.printed_chars += chr(self.tape.read())
+        elif command == self.commands.accept:
+            self.tape.accept( input('\n') )
+        elif command == self.commands.whileb:
+            if self.tape.read() == 0:
+                self.code.jump_to_match()
+        elif command == self.commands.whilee:
+            if self.tape.read() != 0:
+                self.code.jump_to_match()
+        else:
+            pass
+        
+        self.code.proceed()
+        if self.print_every_step:
+            sys.stdout.write('\n')
+        
+    def reprint(self):
+        print self.printed_chars
+    
+    def execute(self):
+        self.refresh()
+        while True:
+            # try to read
+            try:
+                currentcommand = self.code.read()
+            except:
+                break
+            # execute read command 
+            self.execute_command(currentcommand)
+        if self.print_every_step:
+            self.reprint()
+        return 0
+
+
+
+
+class BFCode(object):
+    def __init__(self, code):
+        self.code = code
+        self.reader = 0
+        self.obracs = ()
+        self.cbracs = ()
+        self.match_brackets()
+    
+    def read(self):
+        return self.code[self.reader]
+    
+    def proceed(self):
+        self.reader += 1
+    
+    def add_to_code(self, codetoadd):
+        self.code += codetoadd
+    
+    def set_reader_at(self, loc):
+        self.reader = loc
+    
+    def jump_to_match(self):
+        try:
+            self.set_reader_at(self.cbracs[self.obracs.index(self.reader)])
+        except:
+            try:
+                self.set_reader_at(self.obracs[self.cbracs.index(self.reader)])
+            except:
+                return None
+    
+    def reset(self, code):
+        if code != None:
+            self.code = code
+        else:
+            pass
+        self.match_brackets()
+        self.reader = 0 
+    
+    def match_brackets(self):
+        open_buffer = []
+        matches = []
+        open_brackets = []
+        close_brackets = []
+        for i in range(len(self.code)):
+            if self.code[i] == '[':
+                open_buffer.append(i)
+            elif self.code[i] == ']':
+                open_brackets.append(open_buffer.pop(-1)) 
+                close_brackets.append(i)
+        self.obracs = tuple(open_brackets)
+        self.cbracs = tuple(close_brackets)
+    
+    def __repr__(self):
+        expression = ''
+        for c in self.code[ :self.reader ]:
+            expression += ("%s" %(c))
+        expression += emph(self.read())
+        for c in self.code[ self.reader+1: ]:
+            expression += ("%s" %(c))
+        expression += '\n'
+        return expression
+
+
+
+
+class BFTape(object):
+    def __init__(self, tapelength):
+        self.tapelength = tapelength
+        self.tape = [0] * tapelength
+        self.pointer = 0
+    
+    def refresh(self):
+        self.tape = [0] * self.tapelength
+        self.pointer = 0
+    
+    def right(self):
+        # moves the pointer 1 cell to the right.
+        # bf command : >
+        self.pointer += 1
+    
+    def left(self):
+        # moves the pointer 1 cell to the left.
+        # bf command : <
+        self. pointer -= 1
+    
+    def incr(self):
+        # increment the byte at the pointer.
+        self.tape[ self.pointer ] += 1
+    
+    def decr(self):
+        # decrement the byte at the pointer.
+        self.tape[ self.pointer ] -= 1
+    
+    def accept(self, value):
+        # accepts input, storing its value at the pointer
+        self.tape[ self.pointer ] = value
+    
+    def read(self):
+        return self.tape[ self.pointer ] 
+    
+    def __repr__(self):
+        expression = ''
+        for x in self.tape[ :self.pointer ]:
+            expression += ("%d\t" %(x) )
+        expression += emph(self.read())
+        expression += "\t"
+        for x in self.tape[ self.pointer+1: ]:
+            expression += ("%d\t" %(x) )
+        expression += '\n'
+        return expression
+
+
+
+class BFCommands(object):
+    def __init__(self):
         self.right = '>'
         self.left  = '<'
         self.incr  = '+'
@@ -17,97 +201,17 @@ class Brainsth(object):
         self.output= '.'
         self.accept= ','
         self.whileb= '['
-        self.end   = ']'
-        self.command  = ''
-        self.wait = wait
-
-    def refresh(self):
-        self.tape = [0] * self.tapelength
-        self.pointer = 0
-        self.reader = 0
-        self.printed_chars = ""
-
-    def give_command(self,command):
-        self.command = command
-
-    def add_to_command(self,command):
-        self.command += command
-
-    def execute(self):
-        self.refresh()
-        commandlength = len(self.command)
-        while True:
-            try:
-                currentcommand = self.command[self.reader]
-            except:
-                break
-
-            if self.doesprint:
-                self.printtape()
-                self.printcommand()
-                self.reprint()
-                time.sleep(self.wait)
-
-            if currentcommand == self.right:
-                self.pointer += 1
-            elif currentcommand == self.left:
-                self.pointer -= 1
-            elif currentcommand == self.incr:
-                self.tape[self.pointer] += 1
-            elif currentcommand == self.decr:
-                self.tape[self.pointer] -= 1
-            elif currentcommand == self.output:
-                sys.stdout.write(chr(self.tape[self.pointer]))
-                if self.doesprint:
-                    self.printed_chars += chr(self.tape[self.pointer])
-            elif currentcommand == self.accept:
-                self.tape[self.pointer] = input('\n')
-            elif currentcommand == self.whileb:
-                if not self.tape[self.pointer]:
-                    self.reader += self.command[self.reader:].find(self.end) 
-            elif currentcommand == self.end:
-                if self.tape[self.pointer]:
-                    self.reader -= self.command[:self.reader][::-1].find(self.whileb) + 1
-            else:
-                pass
-            self.reader += 1
-            if self.doesprint:
-                sys.stdout.write('\n')
-
-        if self.doesprint:
-            self.reprint()
-        return 0
+        self.whilee= ']'
     
-    def emph(self,chars):
-        sys.stdout.write("\033[0;31m%s\033[0m" %(chars))
-
-    def printtape(self):
-        for x in self.tape[:self.pointer]:
-            sys.stdout.write("%d\t" %(x))
-        self.emph(self.tape[self.pointer])
-        sys.stdout.write("\t")
-        for x in self.tape[self.pointer +1 :]:
-            sys.stdout.write("%d\t"%(x))
-        sys.stdout.write('\n')
-
-    def printcommand(self):
-        for c in self.command[:self.reader]:
-            sys.stdout.write("%s" %(c))
-        self.emph(self.command[self.reader])
-        for c in self.command[self.reader+1:]:
-            sys.stdout.write("%s" %(c))
-        sys.stdout.write('\n')
-
-    def reprint(self):
-        print self.printed_chars
-
+def emph(chars):
+    return("\033[0;31m%s\033[0m" %(chars))
 
 
 def hello_world():
-   command = '++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.' 
-   brain = Brainsth(10)
-   brain.give_command(command)
-   brain.execute()
+   code = '++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.' 
+   hellobf = BrainSth(10)
+   hellobf.give_code(code4)
+   hellobf.execute()
 
 if __name__ == '__main__':
     hello_world()
