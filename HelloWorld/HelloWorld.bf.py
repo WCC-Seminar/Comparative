@@ -210,7 +210,7 @@ def emph(chars):
 def hello_world():
    code = '++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.' 
    hellobf = BrainSth(10)
-   hellobf.give_code(code4)
+   hellobf.give_code(code)
    hellobf.execute()
 
 if __name__ == '__main__':
