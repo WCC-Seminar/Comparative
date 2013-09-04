@@ -749,6 +749,11 @@ def remove_at(l,n)
 end
 ```
 
+#### Haskell
+```
+removeAt :: Int -> [a] -> [a]
+removeAt n xs = take (n-1) xs ++ drop n xs
+```
 
 ### 1.21 Insert an element at a given position into a list.
 
@@ -769,6 +774,12 @@ def insert_at(a, li, loc)
 end
 ```
 You can always use ```li[0..n]```, blah blah blah.
+
+#### Haskell
+```haskell
+insertAt :: a -> [a] -> Int -> [a]
+insertAt x xs n =  take (n-1) xs ++ [x] ++ drop (n-1) xs
+```
 
 ### 1.22 Create a list containing all integers within a given range.
 
