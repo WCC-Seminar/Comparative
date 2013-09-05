@@ -750,7 +750,7 @@ end
 ```
 
 #### Haskell
-```
+```haskell
 removeAt :: Int -> [a] -> [a]
 removeAt n xs = take (n-1) xs ++ drop n xs
 ```
@@ -863,6 +863,11 @@ def my_random_permutation(l):
     buff = list(l)
     return [ buff.pop(random.randint(0,len(buff)-1)) 
                     for i in range(length)]
+```
+
+#### Ruby
+```ruby
+a.sample(a.length)
 ```
 
 ### 1.26 Generate the combinations of K distinct objects chosen from the N elements of a list.
