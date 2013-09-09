@@ -81,6 +81,10 @@ last.init $ a
 ```haskell
 head.tail.reverse $ a
 ```
+#### R
+```r
+a[-2]
+```
 
 ### 1.03 Find the k'th element of a list.
 
@@ -100,6 +104,10 @@ a.at(k)
 #### Haskell
 ```haskell
 a !! k
+```
+#### R
+```r
+a[k]
 ```
 
 ### 1.04 Find the number of elements of a list.
@@ -121,6 +129,11 @@ a.count
 length a
 ```
 
+#### R
+```r
+length(a)
+```
+
 ### 1.05 Reverse a list.
 
 #### Python
@@ -140,6 +153,10 @@ a.reverse! # returns reversed list AND reverses the list in place.
 #### Haskell
 ```haskell
 reverse a
+```
+#### R
+```r
+rev(a)
 ```
 
 ### 1.06 Find out whether a list is a palindrome.
@@ -177,6 +194,11 @@ end
 #### Haskell
 ```haskell
 a == reverse a
+```
+
+#### R
+```r
+identical(a,rev(a))
 ```
 
 ### 1.07 Flatten a nested list structure.
@@ -521,6 +543,24 @@ dupli []     = []
 dupli (x:xs) = x:x:dupli xs
 ```
 
+#### R
+```r
+# 複製したい対象がベクトルのとき
+dupli <- function(x){
+                      y <- matrix(c(x,x),length(x),2)
+                      return(c(t(y)))
+                    }
+dupli(a)
+
+#リストを複製するとき
+dupli <- function(x){
+                      y <- list()
+                      for(i in 1:(2*length(x)) ){ y[i] <- x[ceiling(i/2)] }
+                      return(y)
+                      }
+dupli(a)
+```
+
 ### 1.15 Duplicate the elements of a list a given number of times.
 
 #### Python
@@ -561,6 +601,15 @@ dupli' n xs = concatMap (dup'' n) xs
     where
         dup'' 0 x = []
         dup'' n x = x:dup'' (n-1) x
+```
+#### R
+```r
+dupli <- function(x,n){
+                      y <- list()
+                      for(i in 1:(n*length(x)) ){ y[i] <- x[ceiling(i/n)] }
+                      return(y)
+                      }
+dupli(a,n)
 ```
 
 ### 1.16 Drop every n'th element from a list.
@@ -612,6 +661,15 @@ drop' (x:xs) n m
 mydrop l n = drop' l n 1 -- drop 2 [1,2,3,4,5,6] -> [2,3,4,5,6]
 ```
 
+#### R
+```r
+drop <- function(x,n){
+                      l <- ceiling(length(x)/n)-1
+                      return( x[-1*(n*(0:l)+1)] )
+                      }
+drop(a,n)
+```
+
 ### 1.17 Split a list into two parts; the length of the first part is given.
 
 #### Python
@@ -642,6 +700,15 @@ split :: Int -> [a] -> ([a], [a])
 split n xs = (take n xs, drop n xs) 
 ```
 
+#### R
+```r
+split <- function(x,n){
+                        list( x[1:n],x[(n+1):length(x)]
+                      }
+split(a,n)
+```
+
+
 ### 1.18 Extract a slice from a list.
 Given two indices, I and K, the slice is the list containing the elements between the I'th and K'th element of the original list (both limits included). Start counting the elements with 1.
 
@@ -671,6 +738,10 @@ end
 ```haskell
 slice :: Int -> Int -> [a] -> [a]
 slice i k list = take (k-i+1) $ drop (i-1) list
+```
+#### R
+```r
+a[i:k]
 ```
 
 ### 1.19 Rotate a list N places to the left.
@@ -719,6 +790,11 @@ and this should work for all n.
 rotate'' n xs 
     | n < 0     = rotate (length xs + n) xs
     | otherwise = rotate n xs
+```
+
+#### R
+```r
+list(x[-1*(1:n)],x[1:n])
 ```
 
 
