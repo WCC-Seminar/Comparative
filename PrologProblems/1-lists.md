@@ -55,6 +55,10 @@ head.reverse $ a
 ```lua
 a[#a]
 ```
+#### R
+```r
+a[-1]
+```
 
 ### 1.02 Find the last but one element of a list.
 list は (ry
