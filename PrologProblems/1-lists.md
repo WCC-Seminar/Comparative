@@ -702,10 +702,7 @@ split n xs = (take n xs, drop n xs)
 
 #### R
 ```r
-split <- function(x,n){
-                        list( x[1:n],x[(n+1):length(x)]
-                      }
-split(a,n)
+list(a[1:n],a[-1*(1:n)])
 ```
 
 
@@ -794,7 +791,11 @@ rotate'' n xs
 
 #### R
 ```r
-list(x[-1*(1:n)],x[1:n])
+rotate <- function(x,n){
+                y <- x[-1*(1:n)]
+                y[(length(x)-n+1):length(x)] <- x[1:n]
+                return(y) }
+rotate(a,n)
 ```
 
 
