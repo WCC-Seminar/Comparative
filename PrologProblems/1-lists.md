@@ -624,6 +624,11 @@ X = [a,b,d,e,g,h,k]
 def drop(l,n):
     return [ x[i] for i in range(len(l)) if (i+1)%n != 0]
 ```
+```range(len(l))```, UUgh!
+```python
+def drop(l,n):
+    return [ x for (x,i) in enumerate(l) if (i+1)%n != 0]
+```
 
 #### Ruby
 ```ruby
