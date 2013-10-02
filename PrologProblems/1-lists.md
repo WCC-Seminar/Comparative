@@ -56,7 +56,7 @@ head.reverse $ a
 a[#a]
 ```
 #### R
-```r
+```s
 a[-1]
 ```
 
@@ -82,7 +82,7 @@ last.init $ a
 head.tail.reverse $ a
 ```
 #### R
-```r
+```s
 a[-2]
 ```
 
@@ -106,7 +106,7 @@ a.at(k)
 a !! k
 ```
 #### R
-```r
+```s
 a[k]
 ```
 
@@ -130,7 +130,7 @@ length a
 ```
 
 #### R
-```r
+```s
 length(a)
 ```
 
@@ -155,7 +155,7 @@ a.reverse! # returns reversed list AND reverses the list in place.
 reverse a
 ```
 #### R
-```r
+```s
 rev(a)
 ```
 
@@ -197,7 +197,7 @@ a == reverse a
 ```
 
 #### R
-```r
+```s
 identical(a,rev(a))
 ```
 
@@ -544,7 +544,7 @@ dupli (x:xs) = x:x:dupli xs
 ```
 
 #### R
-```r
+```s
 # 複製したい対象がベクトルのとき
 dupli <- function(x){
                       y <- matrix(c(x,x),length(x),2)
@@ -603,7 +603,7 @@ dupli' n xs = concatMap (dup'' n) xs
         dup'' n x = x:dup'' (n-1) x
 ```
 #### R
-```r
+```s
 dupli <- function(x,n){
                       y <- list()
                       for(i in 1:(n*length(x)) ){ y[i] <- x[ceiling(i/n)] }
@@ -667,7 +667,7 @@ mydrop l n = drop' l n 1 -- drop 2 [1,2,3,4,5,6] -> [2,3,4,5,6]
 ```
 
 #### R
-```r
+```s
 drop <- function(x,n){
                       l <- ceiling(length(x)/n)-1
                       return( x[-1*(n*(0:l)+1)] )
@@ -706,7 +706,7 @@ split n xs = (take n xs, drop n xs)
 ```
 
 #### R
-```r
+```s
 list(a[1:n],a[-1*(1:n)])
 ```
 
@@ -742,7 +742,7 @@ slice :: Int -> Int -> [a] -> [a]
 slice i k list = take (k-i+1) $ drop (i-1) list
 ```
 #### R
-```r
+```s
 a[i:k]
 ```
 
@@ -795,7 +795,7 @@ rotate'' n xs
 ```
 
 #### R
-```r
+```s
 rotate <- function(x,n){
                 y <- x[-1*(1:n)]
                 y[(length(x)-n+1):length(x)] <- x[1:n]
