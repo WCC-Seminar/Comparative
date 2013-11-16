@@ -1,0 +1,11 @@
+\count1=1 \count2=1
+\def\prt#1{
+\count0=#1 \advance \count0 by -1
+\noindent\the\count1
+\advance \count1 by \the\count2
+\count3=\the\count1 \count1=\the\count2 \count2=\the\count3
+\ifnum \count0 > 0 { }\prt{\the\count0} \fi
+}
+\prt{46}
+%% you cannot print more than 46 numbers.
+\bye
