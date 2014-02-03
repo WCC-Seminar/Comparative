@@ -1,3 +1,6 @@
+between(L,H,L) :- L =< H.
+between(L,H,V) :- L < H, L1 is L+1, between(L1,H,V).
+
 next(_,Y) :- between(0,9,Y).
 
 nth(1,[X|_],X).
